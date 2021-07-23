@@ -1,19 +1,26 @@
 from .pages.product_page import ProductPage
+import pytest
+import time
 
-link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear"
+#link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-shellcoders-handbook_209/?promo=newYear"
+link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
 
 
-def test_guest_can_add_product_to_basket(browser):
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
     page = ProductPage(browser, link)
     page.open()
-
-    product_name_orig = page.get_product_name_original()
-    product_price = page.get_product_price()
-
     page.product_add()
+    page.should_not_be_success_message()
 
-    product_name_confirmed = page.get_product_name_from_confirmation()
-    basket_price = page.get_basket_price_from_confirmation()
 
-    assert product_name_orig == product_name_confirmed, f"Product expected: {product_name_orig}, got: {product_name_confirmed}"
-    assert product_price == basket_price, f"Expected price: {product_price}, got: {basket_price}"
+def test_guest_cant_see_success_message(browser):
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_not_be_success_message()
+
+
+def test_message_disappeared_after_adding_product_to_basket(browser):
+    page = ProductPage(browser, link)
+    page.open()
+    page.product_add()
+    page.should_success_message_disappear()
