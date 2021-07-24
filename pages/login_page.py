@@ -33,4 +33,3 @@ class LoginPage(BasePage):
         WebDriverWait(self.browser, 15).until(
             ec.element_to_be_clickable(LoginPageLocators.REG_SUCCESS_MESSAGE)
         )
-

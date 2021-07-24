@@ -1,33 +1,30 @@
-from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.common.exceptions import TimeoutException
 from .locators import BasePageLocators
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 import math
 
 
-
 class BasePage():
-    def __init__(self, browser, url, timeout=10):
+    def __init__(self, browser, url):
         self.browser = browser
         self.url = url
-        # self.browser.implicitly_wait(timeout)
 
     def go_to_login_page(self):
         from .login_page import LoginPage
         login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         login_link.click()
         return LoginPage(browser=self.browser,
-                         url=self.browser.current_url)  # возвращаем объект loginpage если он нужен
+                         url=self.browser.current_url)  # возвращаем объект loginpage, если он нужен
 
     def go_to_basket_page(self):
         from .basket_page import BasketPage
         basket_link = self.browser.find_element(*BasePageLocators.BASKET_BUTTON)
         basket_link.click()
         return BasketPage(browser=self.browser,
-                          url=self.browser.current_url)  # возвращаем объект basketpage если он нужен
+                          url=self.browser.current_url)  # возвращаем объект basketpage, если он нужен
 
     def should_be_login_link(self):
         assert self.is_element_present(BasePageLocators.LOGIN_LINK), "user should see login_link"
@@ -82,4 +79,4 @@ class BasePage():
 
     def should_be_authorized_user(self):
         assert self.is_element_present(BasePageLocators.USER_ICON), "User icon is not presented," \
-                                                                     " probably unauthorised user"
+                                                                    " probably unauthorised user"

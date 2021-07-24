@@ -1,5 +1,5 @@
 from .base_page import BasePage
-from .locators import MainPageLocators
+from .locators import MainPageLocators  # пока не используется, но локаторы будут нужны при добавлении новых методов.
 
 
 class MainPage(BasePage):

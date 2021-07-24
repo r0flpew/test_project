@@ -6,7 +6,6 @@ class ProductPage(BasePage):
     def product_add(self):
         add_button = self.browser.find_element(*ProductPageLocators.BASKET_ADD_BUTTON)
         add_button.click()
-        #self.solve_quiz_and_get_code()
 
     def get_product_price(self):
         price = self.browser.find_element(*ProductPageLocators.PRODUCT_PRICE).text
@@ -16,13 +15,13 @@ class ProductPage(BasePage):
         name = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME_ORIGINAL).text
         return name
 
-    def get_product_name_from_confirmation(self):
-        name = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME_CONFIRMED).text
-        return name
+    def check_product_name(self, orig_name):
+        product_name = self.browser.find_element(*ProductPageLocators.PRODUCT_NAME_CONFIRMED).text
+        assert orig_name == product_name, f"Product expected: {orig_name}, got: {product_name}"
 
-    def get_basket_price_from_confirmation(self):
+    def check_product_price(self, orig_price):
         basket_price = self.browser.find_element(*ProductPageLocators.BASKET_PRICE_MESSAGE).text
-        return basket_price
+        assert orig_price == basket_price, f"Expected price: {orig_price}, got: {basket_price}"
 
     def should_not_be_success_message(self):
         assert self.is_not_element_present(ProductPageLocators.PRODUCT_NAME_CONFIRMED), \
